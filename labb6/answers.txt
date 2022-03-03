@@ -1,0 +1,26 @@
+﻿Del A:
+1.
+eventQueue används av: 
+Simulation::run() // går igenom och kör alla event i eventQueue och efter de har körts så raderas de från eventQueue. 
+Simulation::scheduleEvent() // lägger till ett nytt event i prioriteringskön eventQueue. 
+
+allTheFish används av:
+Simulation::harvestTonnageNow() // lägger alla fiskar som lever i en stillAlive vector, sedan slumpas stillAlive vectorn och alla fiskar som är tillräckligt stora blir fångade tills “landing” gränsen har nåtts. Alla fiskar som klarar sig läggs tillbaka i allTheFish. 
+Simulation::addFish() // lägger till en ny fisk i AllTheFish. 
+
+2.
+Tre (LANDING, MIN_CATCHABLE_AGE) par:
+
+(50000, 150), (60000,  250) & (80000, 300). 
+
+Om LANDING(produktion) är större fiskas det mer och därmed måste bara äldre fiskar bli fångade (högre MIN_CATCHABLE_AGE) för att inte hållbarheten av fiskbeståndet. För att om MIN_CATCHABLE_AGE är lägre är det större risk att fångade fiskar inte hunnit lägga ägg och lägger ägg mindre gånger under sitt liv.
+
+3.
+Det är ingen minneslucka eftersom de olika eventen hanterar och raderar objektens pekare. 
+Samt Simulation hanterar och raderar eventens pekare.
+
+
+Del C:
+Push back med tidskoplexitet O(1) tog 11 sekunder att köra simuleringen med standard parametrarna, med tidskomplexitet O(n) tog det över 10min innan vi avbröt simuleringen.
+
+Det som avgjorde tids komplexiteten var hur ofta pushback behövde öka arrayn’s storlek och därmed loopa och kopiera över varje element från den gamla arrayn till den nya. När vi valde att arrayen skulle öka med ett varje gång den var full tog det betydligt längre tid att köra programmet jämfört med när vi dubblerade arrayen storlek varje gång den behövde mer utrymme eller satte kapaciteten till 80000 vilket ledde till att pushback aldrig behövde loopa igenom arrayen för att  förstora den.
